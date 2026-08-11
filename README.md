@@ -182,6 +182,12 @@ Rate their collaboration using:
 [  ] The team member contributed to or led decision-making processes with clarity, fairness, and consideration of team input.
 ```
 
+# Submission
+
+Only one member of the team needs to submit the ```.bundle``` repository file. The others are only required to submit this README.md file (because of the team evaluation section). 
+
+All of the source files must have the names of all of the teammates. 
+
 # Rubric 
 
 ✅ Required Components
