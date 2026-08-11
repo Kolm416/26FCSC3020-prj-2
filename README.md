@@ -92,7 +92,7 @@ You are required to implement at least one black box test using Selenium, based 
 
 |User Story|Date|Time|Result|
 |--|--|--|--|
-|Sign Up|99/99/23|99:99|passed|
+|Sign Up|99/99/26|99:99|passed|
 |...|...|...|...|
 
 # Deployment 
