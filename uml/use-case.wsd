@@ -1,0 +1,13 @@
+@startuml usecase
+
+left to right direction
+
+:User:
+:Organizer:
+:Participant:
+User <|-- Organizer
+User <|-- Participant 
+
+package "CTF" {
+    :User: --> (registers)
+@enduml
