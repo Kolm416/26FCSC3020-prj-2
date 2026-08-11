@@ -101,8 +101,6 @@ Create a Docker image to allow the instructor to run your project in a container
 
 # Self and Team Evaluation 
 
-# Team Evaluation 
-
 Please reflect on both your own contributions and those of your teammates using the descriptions provided for each dimension. You may refer back to these descriptions as you consider each person's role in the project.
 
 * Meaningful Contributions: Consider how often and significantly the person contributed to the project. This includes writing code, testing, researching, documenting, or helping solve problems.
