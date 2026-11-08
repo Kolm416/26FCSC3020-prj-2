@@ -8,8 +8,8 @@ Description: Project 2
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy.exc import IntegrityError
-from .models import db, User, Competition, Challenge
-from datetime import datetime
+from .models import db, User, Competition, Challenge, CompetitionRegistration
+from datetime import datetime, timezone
 
 main = Blueprint('main', __name__)
 
@@ -243,3 +243,96 @@ def create_challenge(competition_id):
         'create_challenge.html',
         competition=competition
     )
+
+# US5: Display competitions available for registration.
+@main.get('/competitions')
+@login_required
+def competitions():
+
+    # Only participants can register for competitions.
+    if current_user.role != 'participant':
+        flash('Only participants can register for competitions.', 'error')
+        return redirect(url_for('main.index'))
+
+    # Get the current UTC date and time.
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+
+    # Find competitions that have not started.
+    available_competitions = db.session.query(Competition).filter(
+        Competition.start_date > now
+    ).order_by(Competition.start_date).all()
+
+    # Find competitions this participant has already joined.
+    registrations = db.session.query(CompetitionRegistration).filter_by(
+        participant_id=current_user.id
+    ).all()
+
+    # Collect the IDs of registered competitions.
+    registered_ids = []
+
+    for registration in registrations:
+        registered_ids.append(registration.competition_id)
+
+    # Display the available competitions.
+    return render_template(
+        'competitions.html',
+        competitions=available_competitions,
+        registered_ids=registered_ids
+    )
+
+# US5: Register a participant for a competition.
+@main.post('/competitions/<int:competition_id>/register')
+@login_required
+def register_competition(competition_id):
+
+    # Only participants can register.
+    if current_user.role != 'participant':
+        flash('Only participants can register for competitions.', 'error')
+        return redirect(url_for('main.index'))
+
+    # Find the competition.
+    competition = db.session.get(Competition, competition_id)
+
+    if competition is None:
+        flash('Competition not found.', 'error')
+        return redirect(url_for('main.competitions'))
+
+    # Get the current UTC date and time.
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+
+    # Registration closes when the competition starts.
+    if competition.start_date <= now:
+        flash('Registration is closed for this competition.', 'error')
+        return redirect(url_for('main.competitions'))
+
+    # Check whether the participant is already registered.
+    existing_registration = db.session.query(
+        CompetitionRegistration
+    ).filter_by(
+        participant_id=current_user.id,
+        competition_id=competition.id
+    ).first()
+
+    if existing_registration:
+        flash('You are already registered for this competition.', 'error')
+        return redirect(url_for('main.competitions'))
+
+    # Create a new registration.
+    registration = CompetitionRegistration(
+        participant_id=current_user.id,
+        competition_id=competition.id
+    )
+
+    # Save the registration.
+    db.session.add(registration)
+
+    try:
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        flash('You are already registered for this competition.', 'error')
+        return redirect(url_for('main.competitions'))
+
+    flash('Successfully registered for competition.', 'success')
+
+    return redirect(url_for('main.competitions'))

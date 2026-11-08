@@ -1,0 +1,68 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Available Competitions - CTF Platform
+{% endblock %}
+
+{% block content %}
+
+<h1>Available Competitions</h1>
+
+<p>Select a competition to register for.</p>
+
+{% if competitions %}
+
+    <table>
+
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Registration</th>
+        </tr>
+
+        {% for competition in competitions %}
+
+        <tr>
+            <td>{{ competition.name }}</td>
+            <td>{{ competition.description }}</td>
+            <td>{{ competition.start_date }}</td>
+            <td>{{ competition.end_date }}</td>
+
+            <td>
+
+                {% if competition.id in registered_ids %}
+
+                    <span>Already Registered</span>
+
+                {% else %}
+
+                    <form method="POST"
+                          action="{{ url_for('main.register_competition',
+                                           competition_id=competition.id) }}">
+
+                        <button type="submit">
+                            Register
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+{% else %}
+
+    <p>No upcoming competitions are available.</p>
+
+{% endif %}
+
+{% endblock %}

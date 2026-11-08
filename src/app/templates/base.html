@@ -20,13 +20,14 @@
     <!-- Navigation menu -->
     <nav>
 
+        <!-- Home link -->
         <a href="{{ url_for('main.index') }}">
             Home
         </a>
 
         {% if current_user.is_authenticated %}
 
-            <!-- Organizer navigation -->
+            <!-- Organizer navigation: US2, US3, US4 -->
             {% if current_user.role == 'organizer' %}
 
                 <a href="{{ url_for('main.dashboard') }}">
@@ -35,9 +36,19 @@
 
             {% endif %}
 
+            <!-- Participant navigation: US5 -->
+            {% if current_user.role == 'participant' %}
+
+                <a href="{{ url_for('main.competitions') }}">
+                    Available Competitions
+                </a>
+
+            {% endif %}
+
             <!-- Display logged-in user -->
             <span>
                 Logged in as {{ current_user.name }}
+                ({{ current_user.role }})
             </span>
 
             <!-- Logout form -->
@@ -75,7 +86,7 @@
 
             {% for category, message in messages %}
 
-                <p class="{{ category }}">
+                <p class="message {{ category }}" role="status">
                     {{ message }}
                 </p>
 
@@ -85,7 +96,7 @@
 
     {% endwith %}
 
-    <!-- Page content -->
+    <!-- Main page content -->
     <main>
 
         {% block content %}

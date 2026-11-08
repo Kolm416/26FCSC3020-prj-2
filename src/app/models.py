@@ -81,3 +81,32 @@ class Challenge(db.Model):
         'Competition',
         backref='challenges'
     )
+
+# US5: Store participant registrations for competitions.
+class CompetitionRegistration(db.Model):
+
+    # Unique ID for each registration.
+    id = db.Column(db.Integer, primary_key=True)
+
+    # Participant registering for the competition.
+    participant_id = db.Column(
+        db.Integer,
+        db.ForeignKey('user.id'),
+        nullable=False
+    )
+
+    # Competition the participant registers for.
+    competition_id = db.Column(
+        db.Integer,
+        db.ForeignKey('competition.id'),
+        nullable=False
+    )
+
+    # Prevent duplicate registrations.
+    __table_args__ = (
+        db.UniqueConstraint(
+            'participant_id',
+            'competition_id',
+            name='unique_competition_registration'
+        ),
+    )
