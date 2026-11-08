@@ -11,6 +11,14 @@ Organizer Dashboard - CTF Platform
 
 <h2>My Competitions</h2>
 
+<!-- Link to create a competition -->
+<p>
+    <a href="{{ url_for('main.create_competition') }}">
+        Create New Competition
+    </a>
+</p>
+
+<!-- Display competitions if any exist -->
 {% if competitions %}
 
     <table>
@@ -22,12 +30,14 @@ Organizer Dashboard - CTF Platform
         </tr>
 
         {% for competition in competitions %}
+
         <tr>
             <td>{{ competition.name }}</td>
             <td>{{ competition.description }}</td>
             <td>{{ competition.start_date }}</td>
             <td>{{ competition.end_date }}</td>
         </tr>
+
         {% endfor %}
 
     </table>

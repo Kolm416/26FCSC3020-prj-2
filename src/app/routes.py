@@ -9,6 +9,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy.exc import IntegrityError
 from .models import db, User, Competition
+from datetime import datetime
 
 main = Blueprint('main', __name__)
 
@@ -89,3 +90,66 @@ def dashboard():
         'dashboard.html',
         competitions=competitions
     )
+
+# US3: Allow organizers to create new competitions.
+@main.route('/competitions/create', methods=['GET', 'POST'])
+@login_required
+def create_competition():
+
+    # Only organizers can create competitions.
+    if current_user.role != 'organizer':
+        flash('Only organizers can create competitions.', 'error')
+        return redirect(url_for('main.index'))
+
+    # Process the submitted form.
+    if request.method == 'POST':
+
+        # Retrieve form information.
+        name = request.form.get('name', '').strip()
+        description = request.form.get('description', '').strip()
+        start_date = request.form.get('start_date', '')
+        end_date = request.form.get('end_date', '')
+
+        # Check required fields.
+        if not name or not description or not start_date or not end_date:
+            flash('All fields are required.', 'error')
+            return render_template('create_competition.html')
+
+        # Validate competition name length.
+        if len(name) > 120:
+            flash('Competition name must be 120 characters or less.', 'error')
+            return render_template('create_competition.html')
+
+        # Convert dates from the HTML form.
+        try:
+            start = datetime.strptime(start_date, '%Y-%m-%dT%H:%M')
+            end = datetime.strptime(end_date, '%Y-%m-%dT%H:%M')
+
+        except ValueError:
+            flash('Enter valid competition dates.', 'error')
+            return render_template('create_competition.html')
+
+        # Make sure the end date is after the start date.
+        if end <= start:
+            flash('End date must be after the start date.', 'error')
+            return render_template('create_competition.html')
+
+        # Create the competition.
+        competition = Competition(
+            name=name,
+            description=description,
+            start_date=start,
+            end_date=end,
+            organizer_id=current_user.id
+        )
+
+        # Save the competition to the database.
+        db.session.add(competition)
+        db.session.commit()
+
+        # Return to the organizer dashboard.
+        flash('Competition created successfully.', 'success')
+        return redirect(url_for('main.dashboard'))
+
+    # Display the creation form.
+    return render_template('create_competition.html')

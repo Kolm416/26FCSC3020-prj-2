@@ -1,0 +1,65 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Create Competition - CTF Platform
+{% endblock %}
+
+{% block content %}
+
+<h1>Create New Competition</h1>
+
+<form method="POST"
+      action="{{ url_for('main.create_competition') }}">
+
+    <!-- Competition name -->
+    <label for="name">Competition Name:</label>
+    <input type="text"
+           id="name"
+           name="name"
+           maxlength="120"
+           required>
+
+    <br><br>
+
+    <!-- Competition description -->
+    <label for="description">Description:</label>
+    <textarea id="description"
+              name="description"
+              rows="4"
+              required></textarea>
+
+    <br><br>
+
+    <!-- Start date -->
+    <label for="start_date">Start Date:</label>
+    <input type="datetime-local"
+           id="start_date"
+           name="start_date"
+           required>
+
+    <br><br>
+
+    <!-- End date -->
+    <label for="end_date">End Date:</label>
+    <input type="datetime-local"
+           id="end_date"
+           name="end_date"
+           required>
+
+    <br><br>
+
+    <!-- Submit button -->
+    <button type="submit">
+        Create Competition
+    </button>
+
+</form>
+
+<p>
+    <a href="{{ url_for('main.dashboard') }}">
+        Back to Dashboard
+    </a>
+</p>
+
+{% endblock %}
