@@ -1,3 +1,36 @@
-@startuml
+@startuml sequence
+
+title Submit Flag - Sequence Diagram
+
+actor Participant
+participant "Web Page" as Web
+participant "Flask App" as App
+database "Database" as DB
+
+Participant -> Web : Enter flag
+Web -> App : Submit flag and challenge ID
+
+App -> DB : Check registration and competition
+DB --> App : Return information
+
+alt Registered and competition is active
+    App -> DB : Get correct flag
+    DB --> App : Return flag
+
+    App -> App : Compare answers
+
+    alt Correct answer
+        App -> DB : Save submission and points
+        DB --> App : Confirm submission
+        App --> Web : Display correct answer and score
+    else Incorrect answer
+        App --> Web : Display incorrect answer
+    end
+
+else Not eligible
+    App --> Web : Display error message
+end
+
+Web --> Participant : Show result
 
 @enduml
