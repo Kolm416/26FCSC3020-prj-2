@@ -7,28 +7,33 @@ Organizer Dashboard - CTF Platform
 
 {% block content %}
 
+<!-- Dashboard heading -->
 <h1>Organizer Dashboard</h1>
 
 <h2>My Competitions</h2>
 
-<!-- Link to create a competition -->
+<!-- US3: Link to create a new competition -->
 <p>
     <a href="{{ url_for('main.create_competition') }}">
         Create New Competition
     </a>
 </p>
 
-<!-- Display competitions if any exist -->
+<!-- US2: Display competitions if any exist -->
 {% if competitions %}
 
     <table>
+
+        <!-- Table headings -->
         <tr>
             <th>Name</th>
             <th>Description</th>
             <th>Start Date</th>
             <th>End Date</th>
+            <th>Actions</th>
         </tr>
 
+        <!-- Display each competition -->
         {% for competition in competitions %}
 
         <tr>
@@ -36,6 +41,14 @@ Organizer Dashboard - CTF Platform
             <td>{{ competition.description }}</td>
             <td>{{ competition.start_date }}</td>
             <td>{{ competition.end_date }}</td>
+
+            <!-- US4: Add challenge to this competition -->
+            <td>
+                <a href="{{ url_for('main.create_challenge',
+                                   competition_id=competition.id) }}">
+                    Add Challenge
+                </a>
+            </td>
         </tr>
 
         {% endfor %}
@@ -44,6 +57,7 @@ Organizer Dashboard - CTF Platform
 
 {% else %}
 
+    <!-- Message when no competitions exist -->
     <p>You have not created any competitions yet.</p>
 
 {% endif %}

@@ -8,7 +8,7 @@ Description: Project 2
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy.exc import IntegrityError
-from .models import db, User, Competition
+from .models import db, User, Competition, Challenge
 from datetime import datetime
 
 main = Blueprint('main', __name__)
@@ -153,3 +153,93 @@ def create_competition():
 
     # Display the creation form.
     return render_template('create_competition.html')
+
+# US4: Allow organizers to add challenges.
+@main.route('/competitions/<int:competition_id>/challenges/create',
+            methods=['GET', 'POST'])
+@login_required
+def create_challenge(competition_id):
+
+    # Only organizers can create challenges.
+    if current_user.role != 'organizer':
+        flash('Only organizers can create challenges.', 'error')
+        return redirect(url_for('main.index'))
+
+    # Find the competition.
+    competition = db.session.get(Competition, competition_id)
+
+    # Check that the competition exists.
+    if competition is None:
+        flash('Competition not found.', 'error')
+        return redirect(url_for('main.dashboard'))
+
+    # Check that the organizer owns this competition.
+    if competition.organizer_id != current_user.id:
+        flash('You cannot modify this competition.', 'error')
+        return redirect(url_for('main.dashboard'))
+
+    # Process the submitted form.
+    if request.method == 'POST':
+
+        title = request.form.get('title', '').strip()
+        description = request.form.get('description', '').strip()
+        category = request.form.get('category', '').strip()
+        points_text = request.form.get('points', '').strip()
+        flag = request.form.get('flag', '').strip()
+
+        # Check required fields.
+        if not title or not description or not category or not points_text or not flag:
+            flash('All fields are required.', 'error')
+            return render_template(
+                'create_challenge.html',
+                competition=competition
+            )
+
+        # Validate text lengths.
+        if len(title) > 120 or len(category) > 50 or len(flag) > 255:
+            flash('One or more fields are too long.', 'error')
+            return render_template(
+                'create_challenge.html',
+                competition=competition
+            )
+
+        # Validate the point value.
+        try:
+            points = int(points_text)
+        except ValueError:
+            flash('Points must be a whole number.', 'error')
+            return render_template(
+                'create_challenge.html',
+                competition=competition
+            )
+
+        if points <= 0:
+            flash('Points must be greater than zero.', 'error')
+            return render_template(
+                'create_challenge.html',
+                competition=competition
+            )
+
+        # Create the challenge.
+        challenge = Challenge(
+            title=title,
+            description=description,
+            category=category,
+            points=points,
+            flag=flag,
+            competition_id=competition.id
+        )
+
+        # Save the challenge.
+        db.session.add(challenge)
+        db.session.commit()
+
+        flash('Challenge created successfully.', 'success')
+
+        return redirect(url_for('main.dashboard'))
+
+    # Display the challenge form.
+    return render_template(
+        'create_challenge.html',
+        competition=competition
+    )

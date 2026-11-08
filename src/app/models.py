@@ -53,3 +53,31 @@ class Competition(db.Model):
         'User',
         backref='competitions'
     )
+    
+# Challenge model for US4.
+class Challenge(db.Model):
+
+    # Unique ID for each challenge.
+    id = db.Column(db.Integer, primary_key=True)
+
+    # Challenge information.
+    title = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    points = db.Column(db.Integer, nullable=False)
+
+    # Correct flag used to verify submissions.
+    flag = db.Column(db.String(255), nullable=False)
+
+    # Competition this challenge belongs to.
+    competition_id = db.Column(
+        db.Integer,
+        db.ForeignKey('competition.id'),
+        nullable=False
+    )
+
+    # Relationship between challenges and competitions.
+    competition = db.relationship(
+        'Competition',
+        backref='challenges'
+    )
