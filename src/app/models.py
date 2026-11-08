@@ -26,3 +26,30 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+# Competition model for US2 and US3.
+class Competition(db.Model):
+
+    # Unique ID for each competition.
+    id = db.Column(db.Integer, primary_key=True)
+
+    # Competition information.
+    name = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+
+    # Competition start and end dates.
+    start_date = db.Column(db.DateTime, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=False)
+
+    # ID of the organizer who created the competition.
+    organizer_id = db.Column(
+        db.Integer,
+        db.ForeignKey('user.id'),
+        nullable=False
+    )
+
+    # Relationship between competitions and organizers.
+    organizer = db.relationship(
+        'User',
+        backref='competitions'
+    )

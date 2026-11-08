@@ -1,0 +1,41 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Organizer Dashboard - CTF Platform
+{% endblock %}
+
+{% block content %}
+
+<h1>Organizer Dashboard</h1>
+
+<h2>My Competitions</h2>
+
+{% if competitions %}
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+        </tr>
+
+        {% for competition in competitions %}
+        <tr>
+            <td>{{ competition.name }}</td>
+            <td>{{ competition.description }}</td>
+            <td>{{ competition.start_date }}</td>
+            <td>{{ competition.end_date }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+{% else %}
+
+    <p>You have not created any competitions yet.</p>
+
+{% endif %}
+
+{% endblock %}

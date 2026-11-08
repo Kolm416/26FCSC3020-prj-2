@@ -8,7 +8,7 @@ Description: Project 2
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy.exc import IntegrityError
-from .models import db, User
+from .models import db, User, Competition
 
 main = Blueprint('main', __name__)
 
@@ -67,3 +67,25 @@ def logout():
     logout_user()
     flash('You have logged out.', 'success')
     return redirect(url_for('main.index'))
+
+
+# US2: Display competitions created by the organizer.
+@main.get('/dashboard')
+@login_required
+def dashboard():
+
+    # Only organizers can access this page.
+    if current_user.role != 'organizer':
+        flash('Only organizers can access this page.', 'error')
+        return redirect(url_for('main.index'))
+
+    # Retrieve competitions belonging to this organizer.
+    competitions = db.session.query(Competition).filter_by(
+        organizer_id=current_user.id
+    ).order_by(Competition.start_date).all()
+
+    # Display the organizer dashboard.
+    return render_template(
+        'dashboard.html',
+        competitions=competitions
+    )

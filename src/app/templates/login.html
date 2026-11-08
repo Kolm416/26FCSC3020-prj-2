@@ -1,1 +1,30 @@
-{% extends 'base.html' %}{% block title %}Log in — CTF Platform{% endblock %}{% block content %}<h1>Log in</h1><form method="post"><label for="email">Email</label><input id="email" name="email" type="email" required><label for="password">Password</label><input id="password" name="password" type="password" required><button type="submit">Log in</button></form>{% endblock %}
+
+{% extends 'base.html' %}
+
+{% block title %}
+    Log in — CTF Platform
+{% endblock %}
+
+{% block content %}
+    <h1>Log in</h1>
+
+    <form method="post">
+        <label for="email">Email</label>
+        <input
+            id="email"
+            name="email"
+            type="email"
+            required
+        >
+
+        <label for="password">Password</label>
+        <input
+            id="password"
+            name="password"
+            type="password"
+            required
+        >
+
+        <button type="submit">Log in</button>
+    </form>
+{% endblock %}

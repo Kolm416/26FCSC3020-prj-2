@@ -1,4 +1,97 @@
+
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{% block title %}CTF Platform{% endblock %}</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
-<body><header><a href="{{ url_for('main.index') }}">CTF Competition Platform</a><nav>{% if current_user.is_authenticated %}<span>{{ current_user.name }} ({{ current_user.role }})</span><form method="post" action="{{ url_for('main.logout') }}"><button type="submit">Log out</button></form>{% else %}<a href="{{ url_for('main.register') }}">Register</a><a href="{{ url_for('main.login') }}">Log in</a>{% endif %}</nav></header>
-<main>{% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<p class="message {{ category }}" role="status">{{ message }}</p>{% endfor %}{% endwith %}{% block content %}{% endblock %}</main></body></html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>
+        {% block title %}CTF Platform{% endblock %}
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation menu -->
+    <nav>
+
+        <a href="{{ url_for('main.index') }}">
+            Home
+        </a>
+
+        {% if current_user.is_authenticated %}
+
+            <!-- Organizer navigation -->
+            {% if current_user.role == 'organizer' %}
+
+                <a href="{{ url_for('main.dashboard') }}">
+                    My Competitions
+                </a>
+
+            {% endif %}
+
+            <!-- Display logged-in user -->
+            <span>
+                Logged in as {{ current_user.name }}
+            </span>
+
+            <!-- Logout form -->
+            <form action="{{ url_for('main.logout') }}"
+                  method="post"
+                  style="display: inline;">
+
+                <button type="submit">
+                    Logout
+                </button>
+
+            </form>
+
+        {% else %}
+
+            <!-- Guest navigation -->
+            <a href="{{ url_for('main.register') }}">
+                Register
+            </a>
+
+            <a href="{{ url_for('main.login') }}">
+                Login
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+    <hr>
+
+    <!-- Display flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <p class="{{ category }}">
+                    {{ message }}
+                </p>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <!-- Page content -->
+    <main>
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+</body>
+</html>
