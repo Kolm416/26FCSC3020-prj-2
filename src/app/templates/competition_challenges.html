@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Challenges - CTF Platform{% endblock %}
+
+{% block content %}
+<h1>{{ competition.name }} - Challenges</h1>
+<p>Your Score: {{ points }} points</p>
+
+{% if challenges %}
+    {% for challenge in challenges %}
+        <h2>{{ challenge.title }} ({{ challenge.points }} points)</h2>
+        <p>Category: {{ challenge.category }}</p>
+        <p>{{ challenge.description }}</p>
+
+        {% if challenge.id in solved_ids %}
+            <p>Solved!</p>
+        {% else %}
+            <form method="POST">
+                <input type="hidden" name="challenge_id" value="{{ challenge.id }}">
+                <label for="flag_{{ challenge.id }}">Flag:</label>
+                <input id="flag_{{ challenge.id }}" name="flag" type="text" required>
+                <button type="submit">Submit Flag</button>
+            </form>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <p>No challenges have been added yet.</p>
+{% endif %}
+
+<p><a href="{{ url_for('main.competitions') }}">Back to Competitions</a></p>
+{% endblock %}

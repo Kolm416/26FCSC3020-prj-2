@@ -3,57 +3,97 @@
 
 {% block title %}
 Available Competitions - CTF Platform
+
+<!-- US6: Registered competitions currently in progress -->
+<h2>My Active Competitions</h2>
+{% if active_competitions %}
+    <ul>
+    {% for competition in active_competitions %}
+        <li>
+            {{ competition.name }} —
+            <a href="{{ url_for('main.competition_challenges', competition_id=competition.id) }}">
+                View Challenges
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no active registered competitions.</p>
+{% endif %}
+
 {% endblock %}
 
 {% block content %}
 
+<!-- Page heading -->
 <h1>Available Competitions</h1>
 
-<p>Select a competition to register for.</p>
+<!-- Registration instructions -->
+<p>Select an upcoming competition to register for.</p>
 
+<!-- UTC date and time information -->
+<p>All competition dates and times are displayed in UTC.</p>
+
+<!-- Display upcoming competitions -->
 {% if competitions %}
 
     <table>
 
+        <!-- Competition table headings -->
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Start Date</th>
-            <th>End Date</th>
+            <th>Start Date (UTC)</th>
+            <th>End Date (UTC)</th>
             <th>Registration</th>
         </tr>
 
+        <!-- Display each available competition -->
         {% for competition in competitions %}
 
-        <tr>
-            <td>{{ competition.name }}</td>
-            <td>{{ competition.description }}</td>
-            <td>{{ competition.start_date }}</td>
-            <td>{{ competition.end_date }}</td>
+            <tr>
 
-            <td>
+                <!-- Competition name -->
+                <td>{{ competition.name }}</td>
 
-                {% if competition.id in registered_ids %}
+                <!-- Competition description -->
+                <td>{{ competition.description }}</td>
 
-                    <span>Already Registered</span>
+                <!-- Competition start date -->
+                <td>
+                    {{ competition.start_date.strftime('%Y-%m-%d %H:%M') }}
+                </td>
 
-                {% else %}
+                <!-- Competition end date -->
+                <td>
+                    {{ competition.end_date.strftime('%Y-%m-%d %H:%M') }}
+                </td>
 
-                    <form method="POST"
-                          action="{{ url_for('main.register_competition',
-                                           competition_id=competition.id) }}">
+                <!-- Participant registration -->
+                <td>
 
-                        <button type="submit">
-                            Register
-                        </button>
+                    <!-- Check whether participant is registered -->
+                    {% if competition.id in registered_ids %}
 
-                    </form>
+                        <span>Already Registered</span>
 
-                {% endif %}
+                    {% else %}
 
-            </td>
+                        <!-- Register for competition -->
+                        <form method="POST"
+                              action="{{ url_for('main.register_competition', competition_id=competition.id) }}">
 
-        </tr>
+                            <button type="submit">
+                                Register
+                            </button>
+
+                        </form>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
 
         {% endfor %}
 
@@ -61,8 +101,27 @@ Available Competitions - CTF Platform
 
 {% else %}
 
+    <!-- Message when no upcoming competitions exist -->
     <p>No upcoming competitions are available.</p>
 
+{% endif %}
+
+
+<!-- US6: Registered competitions currently in progress -->
+<h2>My Active Competitions</h2>
+{% if active_competitions %}
+    <ul>
+    {% for competition in active_competitions %}
+        <li>
+            {{ competition.name }} —
+            <a href="{{ url_for('main.competition_challenges', competition_id=competition.id) }}">
+                View Challenges
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no active registered competitions.</p>
 {% endif %}
 
 {% endblock %}

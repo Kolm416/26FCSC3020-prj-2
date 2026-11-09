@@ -7,49 +7,62 @@ Organizer Dashboard - CTF Platform
 
 {% block content %}
 
-<!-- Dashboard heading -->
+<!-- Organizer dashboard heading -->
 <h1>Organizer Dashboard</h1>
 
+<!-- Organizer competitions section -->
 <h2>My Competitions</h2>
 
-<!-- US3: Link to create a new competition -->
+<!-- Link to create a new competition -->
 <p>
     <a href="{{ url_for('main.create_competition') }}">
         Create New Competition
     </a>
 </p>
 
-<!-- US2: Display competitions if any exist -->
+<!-- Display competitions if any exist -->
 {% if competitions %}
 
     <table>
 
-        <!-- Table headings -->
+        <!-- Competition table headings -->
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Start Date</th>
-            <th>End Date</th>
+            <th>Start Date (UTC)</th>
+            <th>End Date (UTC)</th>
             <th>Actions</th>
         </tr>
 
         <!-- Display each competition -->
         {% for competition in competitions %}
 
-        <tr>
-            <td>{{ competition.name }}</td>
-            <td>{{ competition.description }}</td>
-            <td>{{ competition.start_date }}</td>
-            <td>{{ competition.end_date }}</td>
+            <tr>
 
-            <!-- US4: Add challenge to this competition -->
-            <td>
-                <a href="{{ url_for('main.create_challenge',
-                                   competition_id=competition.id) }}">
-                    Add Challenge
-                </a>
-            </td>
-        </tr>
+                <!-- Competition name -->
+                <td>{{ competition.name }}</td>
+
+                <!-- Competition description -->
+                <td>{{ competition.description }}</td>
+
+                <!-- Competition start date -->
+                <td>
+                    {{ competition.start_date.strftime('%Y-%m-%d %H:%M') }}
+                </td>
+
+                <!-- Competition end date -->
+                <td>
+                    {{ competition.end_date.strftime('%Y-%m-%d %H:%M') }}
+                </td>
+
+                <!-- Competition management actions -->
+                <td>
+                    <a href="{{ url_for('main.create_challenge', competition_id=competition.id) }}">
+                        Add Challenge
+                    </a>
+                </td>
+
+            </tr>
 
         {% endfor %}
 

@@ -7,8 +7,10 @@ Create Competition - CTF Platform
 
 {% block content %}
 
+<!-- Page heading -->
 <h1>Create New Competition</h1>
 
+<!-- Competition creation form -->
 <form method="POST"
       action="{{ url_for('main.create_competition') }}">
 
@@ -31,8 +33,11 @@ Create Competition - CTF Platform
 
     <br><br>
 
-    <!-- Start date -->
-    <label for="start_date">Start Date:</label>
+    <!-- UTC date and time instructions -->
+    <p>Enter all competition dates and times in UTC.</p>
+
+    <!-- Competition start date -->
+    <label for="start_date">Start Date (UTC):</label>
     <input type="datetime-local"
            id="start_date"
            name="start_date"
@@ -40,8 +45,8 @@ Create Competition - CTF Platform
 
     <br><br>
 
-    <!-- End date -->
-    <label for="end_date">End Date:</label>
+    <!-- Competition end date -->
+    <label for="end_date">End Date (UTC):</label>
     <input type="datetime-local"
            id="end_date"
            name="end_date"
@@ -49,13 +54,14 @@ Create Competition - CTF Platform
 
     <br><br>
 
-    <!-- Submit button -->
+    <!-- Submit competition -->
     <button type="submit">
         Create Competition
     </button>
 
 </form>
 
+<!-- Return to organizer dashboard -->
 <p>
     <a href="{{ url_for('main.dashboard') }}">
         Back to Dashboard
