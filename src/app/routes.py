@@ -6,33 +6,10 @@ Description: Project 2
 '''
 
 from datetime import datetime, timezone
-
-from flask import (
-    Blueprint,
-    render_template,
-    request,
-    redirect,
-    url_for,
-    flash
-)
-
-from flask_login import (
-    current_user,
-    login_user,
-    logout_user,
-    login_required
-)
-
+from flask import (Blueprint, render_template, request, redirect, url_for, flash)
+from flask_login import (current_user, login_user, logout_user, login_required)
 from sqlalchemy.exc import IntegrityError
-
-from .models import (
-    db,
-    User,
-    Competition,
-    Challenge,
-    CompetitionRegistration,
-    Submission
-)
+from .models import (db, User, Competition, Challenge, CompetitionRegistration, Submission)
 
 
 # Create the main application blueprint.
@@ -628,4 +605,80 @@ def competition_challenges(competition_id):
         challenges=challenges,
         solved_ids=solved_ids,
         points=points
+    )
+
+
+# --------------------------------------------------
+# US7: Competition Rankings
+# --------------------------------------------------
+
+@main.get('/competitions/<int:competition_id>/rankings')
+@login_required
+def competition_rankings(competition_id):
+    competition = db.session.get(Competition, competition_id)
+    if competition is None:
+        flash('Competition not found.', 'error')
+        return redirect(url_for('main.index'))
+
+    # Organizers can see rankings for their own competitions.
+    # Participants must be registered for the competition.
+    if current_user.role == 'organizer':
+        if competition.organizer_id != current_user.id:
+            flash('You cannot view this competition.', 'error')
+            return redirect(url_for('main.dashboard'))
+    elif current_user.role == 'participant':
+        registration = db.session.query(CompetitionRegistration).filter_by(
+            participant_id=current_user.id,
+            competition_id=competition_id
+        ).first()
+        if registration is None:
+            flash('You must register for this competition first.', 'error')
+            return redirect(url_for('main.competitions'))
+    else:
+        return redirect(url_for('main.index'))
+
+    # Include every registered participant, even those with zero points.
+    registrations = db.session.query(CompetitionRegistration).filter_by(
+        competition_id=competition_id
+    ).all()
+    challenges = db.session.query(Challenge).filter_by(
+        competition_id=competition_id
+    ).all()
+    challenge_points = {challenge.id: challenge.points for challenge in challenges}
+
+    # Read successful solutions and add each challenge's points.
+    scores = {}
+    for registration in registrations:
+        scores[registration.participant_id] = 0
+
+    submissions = db.session.query(Submission).join(
+        Challenge, Submission.challenge_id == Challenge.id
+    ).filter(Challenge.competition_id == competition_id).all()
+    for submission in submissions:
+        if submission.participant_id in scores:
+            scores[submission.participant_id] += challenge_points[submission.challenge_id]
+
+    rankings = []
+    for registration in registrations:
+        participant = db.session.get(User, registration.participant_id)
+        rankings.append({
+            'name': participant.name,
+            'points': scores[registration.participant_id]
+        })
+
+    rankings.sort(key=lambda entry: (-entry['points'], entry['name'].lower()))
+
+    # Equal scores receive the same rank.
+    previous_points = None
+    current_rank = 0
+    for position, entry in enumerate(rankings, start=1):
+        if entry['points'] != previous_points:
+            current_rank = position
+        entry['rank'] = current_rank
+        previous_points = entry['points']
+
+    return render_template(
+        'competition_rankings.html',
+        competition=competition,
+        rankings=rankings
     )

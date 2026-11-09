@@ -1,27 +1,7 @@
 
 {% extends 'base.html' %}
 
-{% block title %}
-Available Competitions - CTF Platform
-
-<!-- US6: Registered competitions currently in progress -->
-<h2>My Active Competitions</h2>
-{% if active_competitions %}
-    <ul>
-    {% for competition in active_competitions %}
-        <li>
-            {{ competition.name }} —
-            <a href="{{ url_for('main.competition_challenges', competition_id=competition.id) }}">
-                View Challenges
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>You have no active registered competitions.</p>
-{% endif %}
-
-{% endblock %}
+{% block title %}Available Competitions - CTF Platform{% endblock %}
 
 {% block content %}
 
@@ -116,7 +96,8 @@ Available Competitions - CTF Platform
             {{ competition.name }} —
             <a href="{{ url_for('main.competition_challenges', competition_id=competition.id) }}">
                 View Challenges
-            </a>
+            </a> |
+            <a href="{{ url_for('main.competition_rankings', competition_id=competition.id) }}">View Rankings</a>
         </li>
     {% endfor %}
     </ul>

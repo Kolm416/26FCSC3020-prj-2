@@ -59,7 +59,8 @@ Organizer Dashboard - CTF Platform
                 <td>
                     <a href="{{ url_for('main.create_challenge', competition_id=competition.id) }}">
                         Add Challenge
-                    </a>
+                    </a> |
+                    <a href="{{ url_for('main.competition_rankings', competition_id=competition.id) }}">View Rankings</a>
                 </td>
 
             </tr>
