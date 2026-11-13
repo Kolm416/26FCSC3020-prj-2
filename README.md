@@ -92,8 +92,13 @@ You are required to implement at least one black box test using Selenium, based 
 
 |User Story|Date|Time|Result|
 |--|--|--|--|
-|Sign Up|99/99/26|99:99|passed|
-|...|...|...|...|
+|US#1 - User Registration(Selenium)|11/10/26|8:39 PM|passed|
+|US#2 - View My Competitions|11/12/26|9:45 PM|passed|
+|US#3 - Create Competition|11/12/26| 9:45 PM|passed|
+|US#4 - Add Challenge|11/12/26|9:51 PM|passed|
+|US#5 - Register for Competition|11/12/26|9:55 PM|passed|
+|US#6 - Submit Flag|11/12/26|10:11 PM|passed|
+|US#7 - View Final Results|11/12/26|10:11 PM|passed|
 
 # Deployment 
 
