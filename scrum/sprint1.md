@@ -27,6 +27,9 @@ Date/Time: 11/2/2026
 Participants: Juvia Archuleta, Leigha Lennon
 
 Completed stories: US1, US2, US3
+
 Completed story points: 8
+
 Remaining project points: 13 of 21
+
 Result: Registration/login, organizer dashboard, and competition creation were completed.
