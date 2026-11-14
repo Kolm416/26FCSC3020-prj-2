@@ -18,7 +18,7 @@ Messages sent throughout the week as updates were made to keep each other inform
 
 # Sprint Review
 
-Date/Time: 10/09/2026
+Date/Time: 11/09/2026
 
 Participants: Juvia Archuleta, Leigha Lennon
 
