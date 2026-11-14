@@ -1,32 +1,38 @@
 
 # Sprint Planning
 
-Date/Time: 
+Date: 11/02/26
 
 Participants: Juvia Archuleta, Leigha Lennon
 
-Goal Statement:  
+Goal Statement: Continue project development and implement the user stories assigned to Sprint 2.
 
-# Daily Scrums
+# Weekly Scrums
 
-## 99/99/99-99:99
+Participants: Juvia Archuleta, Leigha Lennon
 
-Participants: 
+Work focused on implementing US4 and US5 and testing how they worked with the features completed in Sprint 1.
 
-Notes...
+Messages were sent throughout the week as updates were made to keep each other informed.
 
 # Sprint Review
 
-Date/Time: 
+Date/Time: 11/02/2026
 
-Participants: 
+Participants: Juvia Archuleta, Leigha Lennon
 
-Notes...
+Reviewed US4 and US5 and tested the completed features to check that they worked together as expected.
 
 # Sprint Retrospective
 
-Date/Time: 
+Date: 11/9/2026
 
-Participants: 
+Participants: Juvia Archuleta, Leigha Lennon
 
-Notes...
+Completed stories: US4, US5
+
+Completed story points: 8
+
+Remaining project points: 5 of 21
+
+Result: Challenge creation, participant registration for competitions, and testing were completed.
