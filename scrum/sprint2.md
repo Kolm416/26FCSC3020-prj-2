@@ -11,7 +11,7 @@ Goal Statement: Continue project development and implement the user stories assi
 
 Participants: Juvia Archuleta, Leigha Lennon
 
-Work focused on implementing US4 and US5 and testing how they worked with the features completed in Sprint 1.
+Work focused on implementing US4 and US5 and testing features completed in Sprint 1.
 
 US4 assigned 5 story points. US5 assigned 3 story points.
 
