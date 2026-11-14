@@ -10,7 +10,7 @@ Goal Statement: Development of US6 and US7, Testing
 
 Participants: Juvia Archuleta, Leigha Lennon
 
-Focused on implementation of US6 and US7 and continued testing how user storied from Sprints 1 and 2 functioned.
+Focused on implementation of US6 and US7 and continued testing how user stories from Sprints 1 and 2 functioned.
 
 US6 assigned 3 story points. US7 assigned 2 story points.
 
