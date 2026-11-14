@@ -10,11 +10,13 @@ Goal Statement:  Initial project plan, creation of UMLs, development of US1-3
 
 Participants: Juvia Archuleta, Leigha Lennon
 
-Notes...
+Initial project planning was discussed and split user stories into sprints. Roles were assigned. 
+
+Messages were sent throughout the week as updates were made to keep each other informed.
 
 # Sprint Review
 
-Date/Time: N/A
+Date: N/A
 
 Participants: Juvia Archuleta, Leigha Lennon
 
@@ -22,7 +24,7 @@ Participants: Juvia Archuleta, Leigha Lennon
 
 # Sprint Retrospective
 
-Date/Time: 11/2/2026
+Date: 11/2/2026
 
 Participants: Juvia Archuleta, Leigha Lennon
 
