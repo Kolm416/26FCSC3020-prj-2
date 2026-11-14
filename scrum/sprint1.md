@@ -2,7 +2,7 @@
 
 Date/Time: 
 
-Participants: 
+Participants: Juvia Archuleta, Leigha Lennon
 
 Goal Statement:  
 
