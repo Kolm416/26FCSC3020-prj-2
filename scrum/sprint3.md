@@ -22,7 +22,7 @@ Date/Time: 10/09/2026
 
 Participants: Juvia Archuleta, Leigha Lennon
 
-Reviewed US4 and US4 and then tested the completed features to ensure they worked as expected.
+Reviewed US4 and US5 and then tested the completed features to ensure they worked as expected.
 
 # Sprint Retrospective
 
