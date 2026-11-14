@@ -12,6 +12,8 @@ Participants: Juvia Archuleta, Leigha Lennon
 
 Initial project planning was discussed and split user stories into sprints. Roles were assigned. 
 
+US1 assigned 3 story points. US2 assigned 2 story points. US3 assigned 3 story points.
+
 Messages were sent throughout the week as updates were made to keep each other informed.
 
 # Sprint Review
