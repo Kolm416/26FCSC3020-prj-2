@@ -2,12 +2,36 @@
 
 left to right direction
 
-:User:
-:Organizer:
-:Participant:
-User <|-- Organizer
-User <|-- Participant 
+title CTF Platform - Use Case Diagram
 
-package "CTF" {
-    :User: --> (registers)
+actor User
+actor Organizer
+actor Participant
+
+User <|-- Organizer
+User <|-- Participant
+
+package "CTF Competition Platform" {
+    usecase "Register Account" as UC1
+    usecase "Log In" as UC2
+    usecase "View Competitions" as UC3
+    usecase "Create Competition" as UC4
+    usecase "Add Challenge" as UC5
+    usecase "Register for Competition" as UC6
+    usecase "Submit Flag" as UC7
+    usecase "View Final Results" as UC8
+}
+
+User --> UC1
+User --> UC2
+
+Organizer --> UC3
+Organizer --> UC4
+Organizer --> UC5
+Organizer --> UC8
+
+Participant --> UC6
+Participant --> UC7
+Participant --> UC8
+
 @enduml

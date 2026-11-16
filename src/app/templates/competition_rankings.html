@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Competition Rankings - CTF Platform{% endblock %}
+
+{% block content %}
+<h1>{{ competition.name }} - Rankings</h1>
+
+{% if rankings %}
+<table>
+    <tr><th>Rank</th><th>Participant</th><th>Points</th></tr>
+    {% for entry in rankings %}
+    <tr>
+        <td>{{ entry.rank }}</td>
+        <td>{{ entry.name }}</td>
+        <td>{{ entry.points }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No participants have registered yet.</p>
+{% endif %}
+
+{% if current_user.role == 'organizer' %}
+<p><a href="{{ url_for('main.dashboard') }}">Back to Dashboard</a></p>
+{% else %}
+<p><a href="{{ url_for('main.competitions') }}">Back to Competitions</a></p>
+{% endif %}
+{% endblock %}

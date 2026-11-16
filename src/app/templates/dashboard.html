@@ -1,0 +1,79 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Organizer Dashboard - CTF Platform
+{% endblock %}
+
+{% block content %}
+
+<!-- Organizer dashboard heading -->
+<h1>Organizer Dashboard</h1>
+
+<!-- Organizer competitions section -->
+<h2>My Competitions</h2>
+
+<!-- Link to create a new competition -->
+<p>
+    <a href="{{ url_for('main.create_competition') }}">
+        Create New Competition
+    </a>
+</p>
+
+<!-- Display competitions if any exist -->
+{% if competitions %}
+
+    <table>
+
+        <!-- Competition table headings -->
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Start Date (UTC)</th>
+            <th>End Date (UTC)</th>
+            <th>Actions</th>
+        </tr>
+
+        <!-- Display each competition -->
+        {% for competition in competitions %}
+
+            <tr>
+
+                <!-- Competition name -->
+                <td>{{ competition.name }}</td>
+
+                <!-- Competition description -->
+                <td>{{ competition.description }}</td>
+
+                <!-- Competition start date -->
+                <td>
+                    {{ competition.start_date.strftime('%Y-%m-%d %H:%M') }}
+                </td>
+
+                <!-- Competition end date -->
+                <td>
+                    {{ competition.end_date.strftime('%Y-%m-%d %H:%M') }}
+                </td>
+
+                <!-- Competition management actions -->
+                <td>
+                    <a href="{{ url_for('main.create_challenge', competition_id=competition.id) }}">
+                        Add Challenge
+                    </a> |
+                    <a href="{{ url_for('main.competition_rankings', competition_id=competition.id) }}">View Rankings</a>
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+    </table>
+
+{% else %}
+
+    <!-- Message when no competitions exist -->
+    <p>You have not created any competitions yet.</p>
+
+{% endif %}
+
+{% endblock %}

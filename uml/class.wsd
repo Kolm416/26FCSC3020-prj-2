@@ -9,4 +9,56 @@ class User {
     active
 }
 
+class Organizer {
+  + createCompetition()
+  + viewCompetitions()
+  + addChallenge()
+}
+
+class Participant {
+  + registerForCompetition()
+  + submitFlag()
+  + viewResults()
+}
+
+class Competition {
+  competition_id
+  name
+  description
+  start_date
+  end_date
+  status
+}
+
+class Challenge {
+  challenge_id
+  title
+  description
+  category
+  points
+  flag
+}
+
+class Registration {
+  registration_id
+  registration_date
+}
+
+class Submission {
+  submission_id
+  submitted_flag
+  is_correct
+  submission_date
+}
+
+User <|-- Organizer
+User <|-- Participant
+
+Organizer "1" -- "0..*" Competition : creates
+Competition "1" *-- "0..*" Challenge : contains
+Participant "1" -- "0..*" Registration
+Competition "1" -- "0..*" Registration
+Participant "1" -- "0..*" Submission
+Challenge "1" -- "0..*" Submission
+
 @enduml

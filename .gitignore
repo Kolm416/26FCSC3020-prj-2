@@ -1,0 +1,31 @@
+
+# Python cache files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Flask instance and local database
+instance/
+*.sqlite3
+*.db
+
+# Environment variables
+.env
+.env.*
+
+# IDE files
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Test coverage
+.coverage
+htmlcov/
